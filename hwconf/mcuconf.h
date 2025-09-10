@@ -78,11 +78,16 @@
 	#define STM32_CLOCK48_REQUIRED				TRUE
 	#define STM32_SW							STM32_SW_PLL
 	#define STM32_PLLSRC						STM32_PLLSRC_HSE
-	#ifdef HW_USE_25MHZ_EXT_CLOCK
+	#if defined(HW_USE_25MHZ_EXT_CLOCK)
 		#define STM32_PLLM_VALUE				25
 		#define STM32_HSE_BYPASS				TRUE
 		#if !defined(STM32_HSECLK)
 			#define STM32_HSECLK				25000000U
+		#endif
+	#elif defined(HW_USE_16MHZ_RC)
+		#define STM32_PLLM_VALUE                16
+		#if !defined(STM32_HSECLK)
+			#define STM32_HSECLK                16000000U
 		#endif
 	#else
 		#define STM32_PLLM_VALUE				8
