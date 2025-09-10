@@ -69,6 +69,7 @@ Open up a terminal
 2.  `make arm_sdk_install`
 3.  `make` <-- Pick out the name of your target device from the supported boards list. For instance, I have a Trampa **VESC 100/250**, so my target is `100_250`
 4.   `make 100_250` <-- This will build the **VESC 100/250** firmware and place it into the `bldc/builds/100_250/` directory
+5.   For raijin custom firmware: `make fw_custom HW_SRC=hwconf/raiju/raijin_vesc.c  HW_HEADER=hwconf/raiju/raijin_vesc.h`
 
 ## Other tools
 
@@ -104,6 +105,7 @@ sudo udevadm trigger
 ```bash
 make 100_250_flash
 ```
+3. For custom firmware `make fw_custom_flash`
 
 ### Method 2 - Upload Firmware via VESC tool through USB
 
