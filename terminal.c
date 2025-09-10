@@ -38,6 +38,7 @@
 #include "mempools.h"
 #include "crc.h"
 #include "firmware_metadata.h"
+#include "servo_dec.h"
 
 #include <string.h>
 #include <ctype.h>
@@ -1154,6 +1155,32 @@ __attribute__((section(".text2"))) void terminal_process_string(char *str) {
 		for (;;) {__NOP();}
 	}
 
+	else if (strcmp(argv[0], "read_battery_raw") == 0) {
+        commands_printf("Battery raw ADC value: %d", ADC_Value[ADC_IND_VIN_SENS]);
+    }
+
+	else if (strcmp(argv[0], "read_vrfint_raw") == 0) {
+        commands_printf("VRFINT raw ADC value: %d", ADC_Value[ADC_IND_VREFINT]);
+    }
+
+
+	else if (strcmp(argv[0], "read_all_adc_raw") == 0) {
+        for (int i = 0; i < 12; i++)
+		{
+			commands_printf("ADC channel %d raw value: %d", i, ADC_Value[i]);
+		}
+    }
+
+	else if (strcmp(argv[0], "get_ppm_raw") == 0) {
+        float value = servodec_get_last_pulse_len(0);
+		commands_printf("PPM raw pulse length: %.5f ms", (double)value);
+    }
+
+	else if (strcmp(argv[0], "get_servo_dec") == 0) {
+        float servo_value = servodec_get_servo(0);
+		commands_printf("servo_value: %.5f", (double)servo_value);
+    }
+
 	// The help command
 	else if (strcmp(argv[0], "help") == 0) {
 		commands_printf("Valid commands are:");
@@ -1269,6 +1296,21 @@ __attribute__((section(".text2"))) void terminal_process_string(char *str) {
 
 		commands_printf("rebootwdt");
 		commands_printf("  Reboot using the watchdog timer.");
+
+		commands_printf("read_battery_raw");
+		commands_printf("  Read the raw ADC value of the battery voltage sensor.");
+
+		commands_printf("read_vrfint_raw");
+		commands_printf("  Read the raw ADC value of the VRFINT voltage sensor.");
+
+		commands_printf("read_all_adc_raw");
+		commands_printf("  Read the raw ADC values of all ADC channels.");
+
+		commands_printf("get_ppm_raw");
+		commands_printf("  Get the raw PPM pulse length in milliseconds.");
+
+		commands_printf("get_servo_dec");
+		commands_printf("  Get the servo decoder value.");
 
 		for (int i = 0;i < callback_write;i++) {
 			if (callbacks[i].cbf == 0) {
