@@ -28,7 +28,7 @@
 
 // Settings
 #define SERVO_NUM				1
-#define TIMER_FREQ				1000000
+#define TIMER_FREQ				10000000 // 10 MHz timer frequency
 
 // Private variables
 static volatile systime_t last_update_time = 0;
